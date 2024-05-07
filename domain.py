@@ -4,9 +4,8 @@ from response import ResponseDTO
 
 class Domain:
     def __init__(self, access_token):
-        self.base_url = "https://api.camoo.hosting/v1/domains/availability"
+        self.base_url = "https://api.camoo.hosting/v1/domains/"
         self.access_token = access_token
-        # Setup basic logging
         logging.basicConfig(level=logging.INFO)
 
     def check_domain_availability(self, domain, tlds):
@@ -14,11 +13,6 @@ class Domain:
         if not self.access_token:
             logging.error("Access token is missing. Authentication required.")
             raise ValueError("Access token is missing. Please authenticate first.")
-
-        # Data validation can be added here
-        if not domain or not tlds:
-            logging.error("Invalid input: Domain or TLDs are missing.")
-            raise ValueError("Domain and TLDs must be provided.")
 
         headers = {
             'Authorization': f'Bearer {self.access_token}',
@@ -28,14 +22,36 @@ class Domain:
             'domain': domain,
             'tlds': tlds
         }
-        try:
-            response = requests.post(self.base_url, data=data, headers=headers)
-            if response.status_code == 200:
-                return ResponseDTO(response.json())
-            else:
-                logging.error(f"API Error {response.status_code}: {response.text}")
-                response.raise_for_status()  # This will raise HTTPError for bad responses
-        except requests.RequestException as e:
-            logging.exception("Failed to check domain availability due to a network error.")
-            raise ConnectionError("Network error occurred while checking domain availability.") from e
+        response = self._post_request("availability", data, headers)
+        return ResponseDTO(response.json())
 
+    def register_domain(self, domain_name, years, ns, reg_contact_id, admin_contact_id, tech_contact_id, billing_contact_id):
+        """Register a domain name."""
+        if not self.access_token:
+            logging.error("Access token is missing. Authentication required.")
+            raise ValueError("Access token is missing. Please authenticate first.")
+
+        headers = {
+            'Authorization': f'Bearer {self.access_token}',
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+        data = {
+            "domain-name": domain_name,
+            "years": years,
+            "ns": ns,
+            "reg-contact-id": reg_contact_id,
+            "admin-contact-id": admin_contact_id,
+            "tech-contact-id": tech_contact_id,
+            "billing-contact-id": billing_contact_id
+        }
+        response = self._post_request("register", data, headers)
+        return ResponseDTO(response.json())
+
+    def _post_request(self, endpoint, data, headers):
+        """Helper method to send POST requests."""
+        full_url = self.base_url + endpoint
+        response = requests.post(full_url, data=data, headers=headers)
+        if response.status_code != 200:
+            logging.error(f"Failed to post data: {response.status_code} {response.text}")
+            raise Exception(f"HTTP Error {response.status_code}: {response.text}")
+        return response
