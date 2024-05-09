@@ -23,10 +23,12 @@ Please visit https://api-doc.camoo.hosting/ for usage documentation
 
 All URIs are relative to */v1*
 
-| Class    | Method                                                           | HTTP request                   | Description                                              |
-|----------|------------------------------------------------------------------|--------------------------------|----------------------------------------------------------|
-| *Domain* | [**check_domain_availability**](docs/Api/Domain.md#availability) | **POST** /domains/availability | Checks the availability of the specified domain name(s). |
-| *Domain* | [**register_domain**](docs/Api/Domain.md#register)               | **POST** /domains/register     | Registers a domain name.                                 |
+| Class    | Method                                                           | HTTP request                         | Description                                              |
+|----------|------------------------------------------------------------------|--------------------------------------|----------------------------------------------------------|
+| *Domain* | [**check_domain_availability**](docs/Api/Domain.md#availability) | **POST** /domains/availability       | Checks the availability of the specified domain name(s). |
+| *Domain* | [**register_domain**](docs/Api/Domain.md#register)               | **POST** /domains/register           | Registers a domain name.                                 |
+| *Domain* | [**modify_nameservers**](docs/Api/Domain.md#modify-nameservers)  | **POST** /domains/modify-nameservers | Modifies the nameservers for a specified domain.         |
+| *Domain* | [**get_domain_details**](docs/Api/Domain.md#details)             | **GET** /domains/details             | Retrieves detailed information about a specified domain. |
 
 # Create Contact
 
@@ -55,3 +57,6 @@ if __name__ == "__main__":
     except Exception as e:
         print(str(e))
 ```
+
+## Documentation For Models
+- [DomainModel](docs/models/DomainModel.md)
