@@ -1,25 +1,32 @@
 # hosting-python
 SDK for python
 
-# Usage example
-```python
+# Docker Setup
+To containerize the hosting-python API Client, use the following Dockerfile:
 
-if __name__ == "__main__":
-access_token = "your_access_token_here"  # Assume you have a valid access token
-domain_manager = Domain(access_token)
+```bash
+docker build -t hosting-python .
 
-    try:
-        # Register a domain
-        registration_result = domain_manager.register_domain(
-            "example.cm", "1", "ns1.yourCompany.com,ns2.yourCompany.com",
-            1112, 1223, 1223, 1223
-        )
-        print(registration_result)
-    except Exception as e:
-        print(str(e))
+docker run -it hosting-python /bin/bash
 
+# Within the docker 
+# run
+python main.py
 ```
 
+# Usage example
+
+Please visit https://api-doc.camoo.hosting/ for usage documentation
+
+
+## Documentation for API Endpoints
+
+All URIs are relative to */v1*
+
+| Class    | Method                                                           | HTTP request                   | Description                                              |
+|----------|------------------------------------------------------------------|--------------------------------|----------------------------------------------------------|
+| *Domain* | [**check_domain_availability**](docs/Api/Domain.md#availability) | **POST** /domains/availability | Checks the availability of the specified domain name(s). |
+| *Domain* | [**register_domain**](docs/Api/Domain.md#register)               | **POST** /domains/register     | Registers a domain name.                                 |
 
 # Create Contact
 
