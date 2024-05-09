@@ -156,8 +156,7 @@ if __name__ == "__main__":
 
 ### Return type
 
-Returns an object instance.
-
+Returns an instance of [DomainModel](../models/DomainModel.md)
 
 ## `modify-nameservers`
 > from domain import Domain
